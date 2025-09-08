@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FitFactory | Contact</title>
+  <style>
+    body { font-family:'Montserrat',sans-serif; margin:0; padding:0; background:#f7f9fc; color:#333; }
+    header { background:#0066cc; color:white; display:flex; justify-content:space-between; align-items:center; padding:20px 40px; }
+    .logo { font-size:1.8rem; font-weight:bold; font-family:'Pacifico', cursive; color:#FFD700; }
+    nav a { color:white; margin-left:20px; text-decoration:none; font-weight:600; }
+    nav a:hover { text-decoration:underline; }
+    main { max-width:800px; margin:50px auto; padding:0 20px; }
+    h1 { text-align:center; font-size:2.5rem; margin-bottom:30px; color:#0066cc; }
+    .contact-info { text-align:center; margin-bottom:40px; font-size:1.1rem; }
+    .contact-info p { margin:8px 0; }
+    form { background:white; padding:30px; border-radius:12px; box-shadow:0 6px 15px rgba(0,0,0,0.1); }
+    form label { display:block; margin-bottom:6px; font-weight:600; }
+    form input, form textarea { width:100%; padding:10px; margin-bottom:15px; border:1px solid #ccc; border-radius:8px; font-size:1rem; }
+    form textarea { resize:vertical; height:120px; }
+    form button { background:#0066cc; color:white; border:none; padding:12px 25px; border-radius:30px; font-weight:bold; cursor:pointer; transition:0.3s; }
+    form button:hover { background:#004080; }
+    footer { background:#0066cc; color:white; text-align:center; padding:15px; margin-top:40px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FitFactory</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="membership.html">Membership</a>
+      <a href="trainers.html">Trainers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Contact Us</h1>
+    <div class="contact-info">
+      <p>Email: riteshgupta2181@gmail.com</p>
+      <p>Phone: +91 8424825773</p>
+      <p>Instagram: @Liftwith.ritesh</p>
+      <p>Address: Hanuman Nagar, PN Road, Bhandup(W)</p>
+    </div>
+
+    <!-- ✅ Contact Form -->
+    <form id="contactForm">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Your name" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Your email" required />
+
+      <label for="message">Message</label>
+      <textarea id="message" placeholder="Write your message" required></textarea>
+
+      <button type="submit">Send Message</button>
+    </form>
+  </main>
+
+  <footer>
+    © 2025 FitFactory | Designed by Ritesh Gupta
+  </footer>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      try {
+        const res = await fetch("http://127.0.0.1:8080/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message })
+        });
+
+        if (res.ok) {
+          alert("✅ Message sent successfully!");
+          e.target.reset();
+        } else {
+          alert("❌ Failed to send message. Try again.");
+        }
+      } catch (err) {
+        alert("⚠️ Error: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

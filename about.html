@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitFactory | About</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #ff6600, #ff914d);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0,0,0,0.6);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #FFD700;
+      font-family: 'Pacifico', cursive;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover { color: #FFD700; }
+
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 60px auto;
+      background: rgba(0,0,0,0.5);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    p {
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 20px 10px 0;
+      padding: 12px 25px;
+      background: #FFD700;
+      color: #000;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: #ffc400; }
+
+    footer {
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 20px; }
+      h1 { font-size: 2.2rem; }
+      p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FitFactory</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="membership.html">Membership</a>
+      <a href="trainers.html">Trainers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>About Us</h1>
+    <p>
+      Welcome to <strong>FitFactory</strong> – your ultimate destination for fitness and transformation.  
+      We believe in not just building bodies, but building lifestyles that promote health, strength, and confidence.  
+      Our mission is to empower individuals to achieve their fitness goals with top-notch training,  
+      professional guidance, and a supportive community.
+    </p>
+
+    <a href="index.html" class="btn">← Back</a>
+    <a href="programs.html" class="btn">Next →</a>
+  </main>
+
+  <footer>
+    © 2025 FitFactory | Designed by Ritesh Gupta
+  </footer>
+</body>
+</html>

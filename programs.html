@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FitFactory | Programs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #1e90ff, #4facfe);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(0,0,0,0.6);
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #FFD700;
+      font-family: 'Pacifico', cursive;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover { color: #FFD700; }
+
+    main {
+      flex-grow: 1;
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+      font-weight: 700;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 600px;
+      border-radius: 15px;
+      background: rgba(255,255,255,0.15);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    li {
+      padding: 20px 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      font-size: 1.3rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    li:last-child { border-bottom: none; }
+    li:hover {
+      background: rgba(255,255,255,0.25);
+      color: #000;
+      font-weight: 700;
+      transform: scale(1.03);
+      border-radius: 15px;
+      cursor: pointer;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 30px 10px 0;
+      padding: 12px 25px;
+      background: #FFD700;
+      color: #000;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+    .btn:hover { background: #ffc400; }
+
+    footer {
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9rem;
+      margin-top: auto;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2.2rem; }
+      ul { max-width: 90%; }
+      li { font-size: 1.1rem; padding: 15px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FitFactory</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="membership.html">Membership</a>
+      <a href="trainers.html">Trainers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Our Programs</h1>
+    <ul>
+      <li>Strength & Conditioning</li>
+      <li>HIIT (High Intensity Interval Training)</li>
+      <li>CrossFit Basics</li>
+      <li>Yoga & Flexibility</li>
+      <li>Functional Movement</li>
+    </ul>
+
+    <a href="about.html" class="btn">← Back</a>
+    <a href="schedule.html" class="btn">Next →</a>
+  </main>
+
+  <footer>
+    © 2025 FitFactory | Designed by Ritesh Gupta
+  </footer>
+</body>
+</html>

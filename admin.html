@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FitFactory Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#1f2937;
+      --text:#e5e7eb;
+      --accent:#22c55e;
+      --danger:#ef4444;
+      --info:#3b82f6;
+      --warning:#f59e0b;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: var(--bg);
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
+    }
+
+    header{
+      padding:24px;
+      text-align:center;
+      border-bottom:1px solid #1f2937;
+      background: linear-gradient(90deg, #0f172a, #1e293b);
+      box-shadow:0 4px 10px rgba(0,0,0,0.6);
+    }
+
+    h1{margin:0;font-weight:700}
+
+    .container{max-width:1200px;margin:24px auto;padding:0 16px}
+
+    /* Dashboard Summary */
+    .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-bottom:24px}
+    .summary-card{
+      background:var(--card);
+      border-radius:14px;
+      padding:20px;
+      text-align:center;
+      font-weight:600;
+      font-size:18px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.6);
+      transition:0.3s;
+      color:white;
+    }
+    .summary-card span{display:block;font-size:28px;margin-top:8px;font-weight:700}
+    .summary-card.membership{border-left:6px solid var(--accent); color: var(--accent);}
+    .summary-card.shop{border-left:6px solid var(--info); color: var(--info);}
+    .summary-card.contact{border-left:6px solid var(--warning); color: var(--warning);}
+    .summary-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,0.8)}
+
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px}
+    .tab{background:var(--card);border:1px solid #1f2937;padding:10px 14px;border-radius:10px;cursor:pointer;color:white}
+    .tab.active{outline:2px solid var(--accent)}
+
+    .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:12px 0}
+    .search{flex:1;display:flex;gap:8px}
+    .search input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid #1f2937;background:#0b1220;color:var(--text)}
+
+    .btn{
+      padding:10px 14px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      color:white;
+      transition: all 0.2s ease;
+    }
+    .btn:hover{opacity:0.9; transform: translateY(-2px);}
+    .btn.primary{background:var(--accent);}
+    .btn.danger{background:var(--danger);}
+    .btn.info{background:var(--info);}
+    .btn.warning{background:var(--warning);}
+
+    /* Cards with shadow */
+    .card{
+      background:var(--card);
+      border:1px solid #1f2937;
+      border-radius:14px;
+      padding:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.6);
+      transition: all 0.3s ease;
+    }
+    .card:hover{ box-shadow:0 6px 18px rgba(34,197,94,0.4); }
+
+    /* Tables */
+    table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid #1f2937;text-align:left}
+    th{background:#0b1220;position:sticky;top:0;z-index:1;text-transform:uppercase;letter-spacing:0.5px}
+    tbody tr:hover{background:rgba(34,197,94,0.08)}
+    .actions{display:flex;gap:8px}
+
+    /* Inline edit row */
+    .edit-row td {background:#0b1220;padding:20px;border:1px solid #1f2937;}
+    .edit-row form label{display:block;margin-bottom:4px;font-size:12px;opacity:.85}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .grid .full{grid-column:1/-1}
+    input,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #1f2937;background:#111827;color:var(--text)}
+    textarea{min-height:90px;resize:vertical}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FitFactory • Admin Dashboard</h1>
+    <div style="margin-top:6px"><span class="pill" id="base-url-pill"></span></div>
+  </header>
+
+  <div class="container">
+    <!-- Dashboard Summary -->
+    <div class="summary">
+      <div class="summary-card membership">Memberships<span id="count-membership">0</span></div>
+      <div class="summary-card shop">Orders<span id="count-shop">0</span></div>
+      <div class="summary-card contact">Messages<span id="count-contact">0</span></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-type="membership">Memberships</button>
+      <button class="tab" data-type="shop">Shop Orders</button>
+      <button class="tab" data-type="contact">Contact Messages</button>
+    </div>
+
+    <div class="bar">
+      <div class="search">
+        <input id="search" placeholder="Search (name, email, phone, product, message…)" />
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn info" id="refreshBtn">Refresh</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div id="tableWrap"></div>
+    </div>
+  </div>
+
+<script>
+const api = {
+  membership: { list: "/api/membership", create: "/api/membership", update: id => `/api/membership/${id}`, del: id => `/api/membership/${id}` },
+  shop:       { list: "/api/shop/orders", create: "/api/shop/order", update: id => `/api/shop/order/${id}`, del: id => `/api/shop/order/${id}` },
+  contact:    { list: "/api/contact", create: "/api/contact", update: id => `/api/contact/${id}`, del: id => `/api/contact/${id}` },
+};
+const excludeKeys=new Set(["_id","__v","createdAt","updatedAt"]);
+const typeFieldHints={membership:["name","email","phone","plan","amount","paymentId"],shop:["product","price","customerName","email","phone","paymentId"],contact:["name","email","message"]};
+let state={type:"membership",rows:[],filtered:[],editing:null};
+
+const $=sel=>document.querySelector(sel);
+$('#base-url-pill').textContent=location.origin;
+
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    state.type=t.dataset.type;
+    fetchList();
+  });
+});
+$('#search').addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  state.filtered=state.rows.filter(r=>JSON.stringify(r).toLowerCase().includes(q));
+  renderTable();
+});
+$('#refreshBtn').addEventListener('click',()=>{fetchList();fetchCounts();});
+
+async function fetchJSON(url,opts={}){const res=await fetch(url,{headers:{'Content-Type':'application/json'},...opts});if(!res.ok)throw new Error(`${res.status} ${res.statusText}`);return res.headers.get('content-type')?.includes('application/json')?res.json():res.text();}
+async function fetchList(){try{const{list}=api[state.type];const data=await fetchJSON(list);state.rows=Array.isArray(data)?data:[];state.filtered=state.rows.slice();renderTable();}catch(e){$('#tableWrap').innerHTML=`<div class="empty">Failed to load: ${e.message}</div>`;}}
+async function fetchCounts(){try{const mem=await fetchJSON(api.membership.list);const shop=await fetchJSON(api.shop.list);const contact=await fetchJSON(api.contact.list);$('#count-membership').textContent=Array.isArray(mem)?mem.length:0;$('#count-shop').textContent=Array.isArray(shop)?shop.length:0;$('#count-contact').textContent=Array.isArray(contact)?contact.length:0;}catch(e){console.error("Count fetch failed:",e);}}
+
+function renderTable(){
+  const rows=state.filtered;
+  if(!rows.length){$('#tableWrap').innerHTML=`<div class="empty">No records found.</div>`;return;}
+  const keys=Array.from(new Set(rows.flatMap(r=>Object.keys(r)))).filter(k=>!excludeKeys.has(k));
+  const ths=keys.map(k=>`<th>${k}</th>`).join('')+`<th>Actions</th>`;
+  const trs=rows.map(r=>{
+    const tds=keys.map(k=>{
+      let v=r[k];
+      if(k==="createdAt"&&v)try{v=new Date(v).toLocaleString();}catch{}
+      if(typeof v==="object"&&v!==null)v=JSON.stringify(v);
+      return `<td>${v??""}</td>`;
+    }).join('');
+    return `
+      <tr id="row-${r._id}">
+        ${tds}
+        <td class="actions">
+          <button class="btn info" onclick="openInlineEditor('${r._id}')">Edit</button>
+          <button class="btn danger" onclick="deleteRow('${r._id}')">Delete</button>
+        </td>
+      </tr>
+      <tr id="edit-${r._id}" class="edit-row" style="display:none">
+        <td colspan="${keys.length+1}">
+          <form onsubmit="saveInline(event,'${r._id}')">
+            <div class="grid">
+              ${keys.map(k=>{
+                const val=r[k]??"";
+                const isLong=(k.toLowerCase().includes("message")||String(val).length>60);
+                return `<div class="${isLong?'full':''}">
+                  <label>${k}</label>
+                  ${isLong?`<textarea name="${k}">${val}</textarea>`:`<input name="${k}" value="${val}" />`}
+                </div>`;
+              }).join('')}
+            </div>
+            <div style="margin-top:10px;display:flex;gap:10px;justify-content:flex-end">
+              <button type="button" class="btn warning" onclick="cancelInline('${r._id}')">Cancel</button>
+              <button type="submit" class="btn primary">Save</button>
+            </div>
+          </form>
+        </td>
+      </tr>`;
+  }).join('');
+  $('#tableWrap').innerHTML=`<div style="overflow:auto;max-height:70vh"><table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table></div>`;
+}
+
+window.openInlineEditor=function(id){document.querySelectorAll('.edit-row').forEach(r=>r.style.display='none');const editor=document.getElementById(`edit-${id}`);if(editor)editor.style.display='table-row';}
+window.cancelInline=function(id){const editor=document.getElementById(`edit-${id}`);if(editor)editor.style.display='none';}
+window.saveInline=async function(e,id){e.preventDefault();const form=new FormData(e.target);const payload={};for(const[k,v]of form.entries()){if(['price','amount'].includes(k)&&v.trim()!==''&&!isNaN(v))payload[k]=Number(v);else payload[k]=v;}try{await fetchJSON(api[state.type].update(id),{method:'PUT',body:JSON.stringify(payload)});fetchList();fetchCounts();}catch(err){alert("Save failed: "+err.message);}}
+window.deleteRow=async function(id){if(!confirm("Delete this record permanently?"))return;try{await fetchJSON(api[state.type].del(id),{method:'DELETE'});fetchList();fetchCounts();}catch(e){alert("Delete failed: "+e.message);}}
+
+fetchList();fetchCounts();
+</script>
+</body>
+</html>

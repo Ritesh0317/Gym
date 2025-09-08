@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FitFactory | Shop</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    body { font-family: 'Montserrat', sans-serif; margin:0; padding:0; background:#fafafa; }
+    header { background:#111; color:white; display:flex; justify-content:space-between; align-items:center; padding:20px 40px; }
+    .logo { font-size:1.8rem; font-weight:bold; color:#FFD700; font-family:'Pacifico', cursive; }
+    nav a { color:white; text-decoration:none; margin-left:20px; font-weight:600; }
+    nav a:hover { color:#FFD700; }
+    main { max-width:1200px; margin:50px auto; padding:0 20px; }
+    h1 { text-align:center; font-size:2.5rem; margin-bottom:30px; color:#111; }
+    h2 { margin-top:40px; color:#333; border-bottom:2px solid #FFD700; display:inline-block; padding-bottom:5px; }
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:25px; margin-top:20px; }
+    .product-card { background:white; border-radius:12px; padding:20px; box-shadow:0 6px 15px rgba(0,0,0,0.1); text-align:center; }
+    .product-card img { width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px; }
+    .product-card h3 { font-size:1.2rem; margin-bottom:10px; }
+    .product-card p { font-size:1.1rem; margin-bottom:15px; }
+    .buy-btn { background:#ff6600; color:white; border:none; padding:10px 20px; border-radius:25px; cursor:pointer; font-weight:bold; }
+    .buy-btn:hover { background:#e65c00; }
+    footer { background:#111; color:white; text-align:center; padding:15px; margin-top:40px; }
+    .modal { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; }
+    .modal-content { background:white; padding:25px; border-radius:12px; max-width:400px; width:90%; box-shadow:0 6px 15px rgba(0,0,0,0.3); text-align:center; }
+    .modal-content input { width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:8px; }
+    .confirm-btn { background:#28a745; color:white; border:none; padding:10px 20px; border-radius:20px; cursor:pointer; font-weight:bold; }
+    .confirm-btn:hover { background:#218838; }
+    .close-btn { background:#999; color:white; border:none; padding:8px 15px; border-radius:20px; cursor:pointer; margin-top:10px; }
+    .close-btn:hover { background:#666; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FitFactory</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="membership.html">Membership</a>
+      <a href="trainers.html">Trainers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Shop Fitness Gear</h1>
+
+    <!-- Equipment -->
+    <h2>Equipment</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1599058917212-d750089bc07c?auto=format&fit=crop&w=600&q=80" alt="Dumbbells">
+        <h3>Dumbbells Set</h3>
+        <p>₹2499</p>
+        <button class="buy-btn" onclick="openModal('Dumbbells Set', 2499)">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=600&q=80" alt="Treadmill">
+        <h3>Treadmill</h3>
+        <p>₹25,999</p>
+        <button class="buy-btn" onclick="openModal('Treadmill', 25999)">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1605296867308-46d5465a13f1?auto=format&fit=crop&w=600&q=80" alt="Resistance Bands">
+        <h3>Resistance Bands</h3>
+        <p>₹799</p>
+        <button class="buy-btn" onclick="openModal('Resistance Bands', 799)">Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Cloths -->
+    <h2>Cloths</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=600&q=80" alt="Gym T-shirt">
+        <h3>Gym T-shirt</h3>
+        <p>₹499</p>
+        <button class="buy-btn" onclick="openModal('Gym T-shirt', 499)">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" alt="Training Shoes">
+        <h3>Training Shoes</h3>
+        <p>₹1999</p>
+        <button class="buy-btn" onclick="openModal('Training Shoes', 1999)">Buy Now</button>
+      </div>
+    </div>
+
+    <!-- Supplements -->
+    <h2>Supplements</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1605296867724-fb4a7f6c5f47?auto=format&fit=crop&w=600&q=80" alt="Protein Powder">
+        <h3>Protein Powder</h3>
+        <p>₹3499</p>
+        <button class="buy-btn" onclick="openModal('Protein Powder', 3499)">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1605296867336-6b44f2d0f548?auto=format&fit=crop&w=600&q=80" alt="Creatine">
+        <h3>Creatine</h3>
+        <p>₹1499</p>
+        <button class="buy-btn" onclick="openModal('Creatine', 1499)">Buy Now</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 FitFactory | Designed by Ritesh Gupta
+  </footer>
+
+  <!-- Order Modal -->
+  <div class="modal" id="orderModal">
+    <div class="modal-content">
+      <h2 id="productTitle">Order Product</h2>
+      <input type="text" id="customerName" placeholder="Your Name" required>
+      <input type="email" id="customerEmail" placeholder="Your Email" required>
+      <input type="number" id="quantity" placeholder="Quantity" min="1" value="1" required>
+      <button class="confirm-btn" onclick="confirmOrder()">Proceed to Pay</button>
+      <button class="close-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    let selectedProduct = '';
+    let selectedPrice = 0;
+
+    function openModal(product, price) {
+      selectedProduct = product;
+      selectedPrice = price;
+      document.getElementById('productTitle').innerText = "Order: " + product;
+      document.getElementById('orderModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('orderModal').style.display = 'none';
+    }
+
+    async function confirmOrder() {
+      const name = document.getElementById('customerName').value.trim();
+      const email = document.getElementById('customerEmail').value.trim();
+      const qty = parseInt(document.getElementById('quantity').value);
+
+      if (!name || !email || !qty) {
+        alert("⚠️ Please fill all details!");
+        return;
+      }
+
+      const totalAmount = selectedPrice * qty;
+
+      const options = {
+        key: "YOUR_RAZORPAY_KEY_ID", // ✅ Replace with your Razorpay Key ID
+        amount: totalAmount * 100, // paise
+        currency: "INR",
+        name: "FitFactory Shop",
+        description: selectedProduct,
+        handler: async function (response) {
+          alert("✅ Payment Successful! ID: " + response.razorpay_payment_id);
+          closeModal();
+
+          // Save order to backend
+          try {
+            await fetch("http://127.0.0.1:8080/api/shop/order", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                product: selectedProduct,
+                customerName: name,
+                email,
+                quantity: qty,
+                amount: totalAmount,
+                paymentId: response.razorpay_payment_id
+              })
+            });
+            alert("✅ Order saved successfully!");
+          } catch (err) {
+            alert("⚠️ Failed to save order: " + err.message);
+          }
+        },
+        prefill: { name, email, contact: "" },
+        theme: { color: "#ff6600" }
+      };
+
+      new Razorpay(options).open();
+    }
+  </script>
+</body>
+</html>

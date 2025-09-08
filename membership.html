@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>FitFactory | Membership</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    header { background: #6a1b9a; color: #fff; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    nav a { color: #fff; margin-left: 20px; text-decoration: none; font-weight: 600; }
+    nav a:hover { text-decoration: underline; }
+    h1 { text-align: center; margin-top: 30px; font-size: 28px; color: #444; }
+    .plans-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; padding: 40px 20px; }
+    .plan-box { background: #fff; width: 280px; padding: 25px; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.1); transition: transform 0.3s; text-align: center; }
+    .plan-box:hover { transform: translateY(-8px); }
+    .plan-title { font-size: 22px; font-weight: bold; color: #6a1b9a; }
+    .plan-price { font-size: 20px; margin: 10px 0 20px; }
+    .join-btn { background-color: #6a1b9a; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+    footer { background: #6a1b9a; color: white; text-align: center; padding: 15px; margin-top: 40px; }
+    .modal-bg { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+    .modal { background: white; padding: 30px; border-radius: 12px; width: 400px; position: relative; }
+    .close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 22px; cursor: pointer; }
+    form label { margin-top: 10px; display: block; }
+    form input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; }
+    .pay-btn { margin-top: 15px; background: #6a1b9a; color: white; padding: 12px; border: none; width: 100%; border-radius: 8px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FitFactory</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="membership.html">Membership</a>
+      <a href="trainers.html">Trainers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <h1>Choose Your Plan</h1>
+
+  <div class="plans-container">
+    <!-- Memberships -->
+    <div class="plan-box" data-plan="Monthly Plan" data-price="999">
+      <div class="plan-title">Monthly Plan</div>
+      <div class="plan-price">₹999</div>
+      <button class="join-btn">Join Now</button>
+    </div>
+    <div class="plan-box" data-plan="Semi-Annual Plan" data-price="5499">
+      <div class="plan-title">Semi-Annual Plan</div>
+      <div class="plan-price">₹5,499</div>
+      <button class="join-btn">Join Now</button>
+    </div>
+    <div class="plan-box" data-plan="Annual Plan" data-price="9999">
+      <div class="plan-title">Annual Plan</div>
+      <div class="plan-price">₹9,999</div>
+      <button class="join-btn">Join Now</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 FitFactory | Designed by Ritesh Gupta
+  </footer>
+
+  <!-- Payment Modal -->
+  <div class="modal-bg" id="modal-bg">
+    <div class="modal">
+      <button class="close-btn" id="closeModal">&times;</button>
+      <h2 id="modalTitle">Payment for </h2>
+      <form id="paymentForm">
+        <label for="name">Full Name *</label>
+        <input type="text" id="name" required />
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" required />
+        <label for="phone">Phone Number *</label>
+        <input type="tel" id="phone" maxlength="10" required />
+        <button type="submit" class="pay-btn">Pay ₹<span id="payAmount"></span></button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    const modalBg = document.getElementById('modal-bg');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const payAmountSpan = document.getElementById('payAmount');
+    const paymentForm = document.getElementById('paymentForm');
+
+    let selectedPlan = "", selectedPrice = 0;
+
+    document.querySelectorAll('.join-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const box = e.target.closest('.plan-box');
+        selectedPlan = box.dataset.plan;
+        selectedPrice = box.dataset.price;
+        modalTitle.textContent = `Payment for ${selectedPlan}`;
+        payAmountSpan.textContent = selectedPrice;
+        paymentForm.reset();
+        modalBg.style.display = 'flex';
+      });
+    });
+
+    closeModalBtn.onclick = () => modalBg.style.display = 'none';
+    window.onclick = e => { if (e.target === modalBg) modalBg.style.display = 'none'; };
+
+    paymentForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = paymentForm.name.value.trim();
+      const email = paymentForm.email.value.trim();
+      const phone = paymentForm.phone.value.trim();
+
+      if (!name || !email || !phone) return alert('Please fill all required fields!');
+
+      const options = {
+        key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Razorpay key
+        amount: selectedPrice * 100,
+        currency: "INR",
+        name: "FitFactory",
+        description: selectedPlan,
+        handler: async function (response) {
+          alert("✅ Payment Successful! ID: " + response.razorpay_payment_id);
+          modalBg.style.display = 'none';
+
+          // ✅ Save membership to backend (URL updated)
+          try {
+            await fetch("http://127.0.0.1:8080/api/membership", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name,
+                email,
+                phone,
+                plan: selectedPlan,
+                amount: selectedPrice,
+                paymentId: response.razorpay_payment_id
+              })
+            });
+            alert("✅ Membership saved successfully!");
+          } catch (err) {
+            alert("⚠️ Failed to save membership: " + err.message);
+          }
+        },
+        prefill: { name, email, contact: phone },
+        theme: { color: "#6a1b9a" }
+      };
+      new Razorpay(options).open();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FitFactory | Trainers</title>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #333;
+    }
+
+    header {
+      background: #1e90ff;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .logo { font-size: 1.5rem; font-weight: bold; }
+    nav a { color: #fff; margin-left: 20px; text-decoration: none; font-weight: 600; }
+    nav a:hover { text-decoration: underline; }
+
+    main { flex: 1; max-width: 900px; margin: 50px auto; padding: 0 20px; }
+    h1 { text-align: center; font-size: 2.5rem; color: #1e90ff; margin-bottom: 40px; }
+
+    .trainer-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+    .trainer-card:hover { transform: translateY(-6px); }
+    .trainer-card h2 { color: #0d47a1; margin-bottom: 10px; }
+
+    .personal-trainer {
+      background: #1e90ff;
+      color: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 40px;
+    }
+    .personal-trainer:hover { background: #0d47a1; }
+
+    .nav-buttons { 
+      display: flex; 
+      justify-content: space-between; 
+      max-width: 900px; 
+      margin: 20px auto; 
+      padding: 0 20px; 
+    }
+    .btn-nav {
+      background: #ff6600; 
+      color: white; 
+      padding: 12px 25px; 
+      border-radius: 30px;
+      text-decoration: none; 
+      font-weight: bold; 
+      transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn-nav:hover { background: #e65c00; transform: translateY(-2px); }
+
+    footer { 
+      background: #1e90ff; 
+      color: #fff; 
+      text-align: center; 
+      padding: 15px; 
+      margin-top: auto; 
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">FitFactory</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="programs.html">Programs</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="membership.html">Membership</a>
+      <a href="trainers.html">Trainers</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="shop.html">Shop</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Meet Our Trainers</h1>
+
+    <section class="trainer-card">
+      <h2>Trainer 1 – Ritesh Gupta</h2>
+      <p>Specialist in weight training and body transformation</p>
+    </section>
+
+    <section class="trainer-card">
+      <h2>Trainer 2 – Piddu Yadav</h2>
+      <p>Expert in yoga, Zumba, and women's fitness</p>
+    </section>
+
+    <section class="personal-trainer">
+      <h3>Personal Trainer Available</h3>
+      <p>Book 1-on-1 customized training sessions</p>
+    </section>
+  </main>
+
+  <div class="nav-buttons">
+    <a href="membership.html" class="btn-nav">← Back</a>
+    <a href="gallery.html" class="btn-nav">Next →</a>
+  </div>
+
+  <footer>
+    © 2025 FitFactory | Designed by Ritesh Gupta
+  </footer>
+</body>
+</html>
